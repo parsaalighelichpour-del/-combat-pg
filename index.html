@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#07111f"><title>COMBAT PG</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07111f;color:#eef6ff;font-family:Tahoma,Arial,sans-serif;touch-action:none}
+canvas{display:block;width:100%;height:100%;background:#091727}
+#hud{position:fixed;inset:0;pointer-events:none}.top{display:flex;justify-content:space-between;padding:14px;gap:8px}.pill{background:#081827c9;border:1px solid #39bfff66;border-radius:12px;padding:9px 12px;font-size:13px;box-shadow:0 0 18px #00aaff22}
+#center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border:2px solid #9ceaff;border-radius:50%;box-shadow:0 0 12px #24cfff}
+#center:after,#center:before{content:"";position:absolute;background:#9ceaff}#center:after{width:2px;height:34px;left:8px;top:-8px}#center:before{height:2px;width:34px;top:8px;left:-8px}
+#bottom{position:absolute;bottom:14px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:end}
+.pad{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,44px);gap:5px;pointer-events:auto}.ctrl{border:1px solid #55cfff88;background:#09243acc;color:white;border-radius:12px;font-size:19px;touch-action:none}.ctrl:active{background:#1474a9}
+#fire{pointer-events:auto;border:1px solid #8ef0ff;background:linear-gradient(135deg,#0878ad,#19c9d7);color:#00131c;font-weight:bold;border-radius:50%;width:76px;height:76px;font-size:14px;box-shadow:0 0 25px #00cfff55}
+#menu{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#123b59ee,#030914f5);padding:20px}
+.panel{width:min(440px,100%);border:1px solid #38c7ff88;background:#081827ee;border-radius:22px;padding:25px;text-align:center;box-shadow:0 0 55px #00aaff22}
+h1{margin:0 0 8px;font-size:36px;letter-spacing:2px;color:#8cecff;text-shadow:0 0 22px #00bfff}p{color:#bfd7e7;line-height:1.9;font-size:14px}
+.action{width:100%;border:0;border-radius:13px;padding:15px;background:linear-gradient(90deg,#087eb8,#12c4ce);font-size:17px;font-weight:bold;color:#00131b;margin-top:10px}
+.small{font-size:11px;color:#7f9daf}#toast{position:absolute;top:22%;left:50%;transform:translateX(-50%);background:#06253be8;padding:10px 18px;border-radius:12px;border:1px solid #2bcfff;opacity:0;transition:opacity .2s}
+@media(min-width:800px){.pad,#fire{display:none}}
+</style></head>
+<body><canvas id="game"></canvas>
+<div id="hud"><div class="top"><div class="pill">COMBAT PG · ARENA</div><div class="pill">امتیاز: <b id="score">۰</b></div><div class="pill">انرژی: <b id="hp">۱۰۰</b></div></div><div id="center"></div><div id="toast"></div>
+<div id="bottom"><div class="pad"><span></span><button class="ctrl" data-m="f">▲</button><span></span><button class="ctrl" data-m="l">◀</button><button class="ctrl" data-m="b">▼</button><button class="ctrl" data-m="r">▶</button></div><button id="fire">پالس انرژی</button></div></div>
+<div id="menu"><div class="panel"><h1>COMBAT PG</h1><p>به میدان تمرینی خوش آمدی! ربات‌های تمرینی را پیدا کن، با پالس انرژی امتیاز بگیر و رکوردت را بالا ببر.</p><button class="action" id="start">شروع بازی</button><p class="small">کاملاً آزمایشی · قابل اجرا در مرورگر موبایل و کامپیوتر</p></div></div>
+<script>
+(()=>{const c=document.getElementById('game'),ctx=c.getContext('2d');let W,H,playing=false,score=0,hp=100,px=0,pz=0,angle=0,keys={},targets=[],last=0;
+function resize(){W=c.width=innerWidth*devicePixelRatio;H=c.height=innerHeight*devicePixelRatio;ctx.setTransform(1,0,0,1,0,0)}addEventListener('resize',resize);resize();
+function spawn(){targets=[];for(let i=0;i<9;i++){let a=(Math.random()-.5)*2.3;targets.push({x:Math.sin(a)* (4+Math.random()*5),z:7+Math.random()*13,r:.55+Math.random()*.25,alive:true,phase:Math.random()*6})}}
+function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.opacity=1;setTimeout(()=>e.style.opacity=0,900)}
+function draw(){ctx.fillStyle='#091727';ctx.fillRect(0,0,W,H);let horizon=H*.43;let sky=ctx.createLinearGradient(0,0,0,horizon);sky.addColorStop(0,'#07111f');sky.addColorStop(1,'#17415b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,horizon);ctx.fillStyle='#132c3b';ctx.fillRect(0,horizon,W,H-horizon);
+ctx.strokeStyle='#2b7995';ctx.globalAlpha=.32;ctx.lineWidth=1;for(let i=-12;i<=12;i++){let x=W/2+i*W/14;ctx.beginPath();ctx.moveTo(W/2+(x-W/2)*.08,horizon);ctx.lineTo(x,H);ctx.stroke()}for(let j=1;j<14;j++){let y=horizon+(H-horizon)*(j/14)**2;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}ctx.globalAlpha=1;
+let fov=1.05;targets.filter(t=>t.alive).sort((a,b)=>b.z-a.z).forEach(t=>{let dx=t.x-px,dz=t.z-pz,dist=Math.hypot(dx,dz),rel=Math.atan2(dx,dz)-angle;while(rel>Math.PI)rel-=Math.PI*2;while(rel< -Math.PI)rel+=Math.PI*2;if(Math.abs(rel)>fov/2+.2)return;let sx=W/2+Math.tan(rel)/Math.tan(fov/2)*W/2,sz=H*.43+(H*.57)*(1-1/(1+dist*.14));let size=Math.min(H*.38,H*.85/(dist*.17+1));let bob=Math.sin(performance.now()/400+t.phase)*size*.025;ctx.fillStyle='#05131e';ctx.beginPath();ctx.ellipse(sx,sz+size*.38,size*.22,size*.06,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#1c6d8a';ctx.fillRect(sx-size*.19,sz-size*.28+bob,size*.38,size*.55);ctx.fillStyle='#55eaff';ctx.fillRect(sx-size*.14,sz-size*.22+bob,size*.28,size*.1);ctx.fillStyle='#a4f7ff';ctx.fillRect(sx-size*.09,sz-size*.2+bob,size*.06,size*.045);ctx.fillRect(sx+size*.03,sz-size*.2+bob,size*.06,size*.045);ctx.strokeStyle='#46c9e8';ctx.lineWidth=Math.max(1,size*.025);ctx.strokeRect(sx-size*.19,sz-size*.28+bob,size*.38,size*.55)});
+if(playing){let t=performance.now();if(t-last>1000){last=t;targets.forEach(o=>o.phase+=.2)}}
+requestAnimationFrame(draw)}
+function fire(){if(!playing)return;let best=null,bd=99;for(let t of targets){if(!t.alive)continue;let rel=Math.atan2(t.x-px,t.z-pz)-angle;while(rel>Math.PI)rel-=Math.PI*2;while(rel< -Math.PI)rel+=Math.PI*2;let d=Math.hypot(t.x-px,t.z-pz);if(Math.abs(rel)<.09&&d<bd){best=t;bd=d}}if(best){best.alive=false;score+=10;document.getElementById('score').textContent=score.toLocaleString('fa-IR');toast('هدف تمرینی پیدا شد! +۱۰')}else toast('هدف در مرکز دید نیست');if(targets.every(t=>!t.alive)){spawn();toast('مرحله بعدی!')}}
+function move(){if(keys.f){px+=Math.sin(angle)*.09;pz+=Math.cos(angle)*.09}if(keys.b){px-=Math.sin(angle)*.09;pz-=Math.cos(angle)*.09}if(keys.l)angle-=.035;if(keys.r)angle+=.035}
+setInterval(()=>{if(playing)move()},16);
+document.getElementById('start').onclick=()=>{document.getElementById('menu').style.display='none';playing=true;spawn();last=performance.now();if(innerWidth>800)c.requestPointerLock?.()};
+document.getElementById('fire').onpointerdown=e=>{e.preventDefault();fire()};
+document.querySelectorAll('[data-m]').forEach(b=>{let k=b.dataset.m;b.onpointerdown=e=>{e.preventDefault();keys[k]=true};['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
+addEventListener('keydown',e=>{if(e.code==='KeyW'||e.code==='ArrowUp')keys.f=true;if(e.code==='KeyS'||e.code==='ArrowDown')keys.b=true;if(e.code==='KeyA'||e.code==='ArrowLeft')keys.l=true;if(e.code==='KeyD'||e.code==='ArrowRight')keys.r=true;if(e.code==='Space')fire()});
+addEventListener('keyup',e=>{if(['KeyW','ArrowUp'].includes(e.code))keys.f=false;if(['KeyS','ArrowDown'].includes(e.code))keys.b=false;if(['KeyA','ArrowLeft'].includes(e.code))keys.l=false;if(['KeyD','ArrowRight'].includes(e.code))keys.r=false});
+let dragging=false,lastX=0;c.addEventListener('pointerdown',e=>{if(e.target===c){dragging=true;lastX=e.clientX}});addEventListener('pointerup',()=>dragging=false);addEventListener('pointermove',e=>{if(dragging&&playing){angle+=(e.clientX-lastX)*.004;lastX=e.clientX}});
+document.getElementById('hp').textContent=hp.toLocaleString('fa-IR');draw();
+})();
+</script></body></html>
