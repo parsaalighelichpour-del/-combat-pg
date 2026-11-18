@@ -2,46 +2,100 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#07111f"><title>COMBAT PG</title>
+<meta name="theme-color" content="#06101d"><title>COMBAT PG — Neon Arena</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#07111f;color:#eef6ff;font-family:Tahoma,Arial,sans-serif;touch-action:none}
-canvas{display:block;width:100%;height:100%;background:#091727}
-#hud{position:fixed;inset:0;pointer-events:none}.top{display:flex;justify-content:space-between;padding:14px;gap:8px}.pill{background:#081827c9;border:1px solid #39bfff66;border-radius:12px;padding:9px 12px;font-size:13px;box-shadow:0 0 18px #00aaff22}
-#center{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border:2px solid #9ceaff;border-radius:50%;box-shadow:0 0 12px #24cfff}
-#center:after,#center:before{content:"";position:absolute;background:#9ceaff}#center:after{width:2px;height:34px;left:8px;top:-8px}#center:before{height:2px;width:34px;top:8px;left:-8px}
-#bottom{position:absolute;bottom:14px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:end}
-.pad{display:grid;grid-template-columns:repeat(3,48px);grid-template-rows:repeat(2,44px);gap:5px;pointer-events:auto}.ctrl{border:1px solid #55cfff88;background:#09243acc;color:white;border-radius:12px;font-size:19px;touch-action:none}.ctrl:active{background:#1474a9}
-#fire{pointer-events:auto;border:1px solid #8ef0ff;background:linear-gradient(135deg,#0878ad,#19c9d7);color:#00131c;font-weight:bold;border-radius:50%;width:76px;height:76px;font-size:14px;box-shadow:0 0 25px #00cfff55}
-#menu{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:radial-gradient(ellipse at center,#123b59ee,#030914f5);padding:20px}
-.panel{width:min(440px,100%);border:1px solid #38c7ff88;background:#081827ee;border-radius:22px;padding:25px;text-align:center;box-shadow:0 0 55px #00aaff22}
-h1{margin:0 0 8px;font-size:36px;letter-spacing:2px;color:#8cecff;text-shadow:0 0 22px #00bfff}p{color:#bfd7e7;line-height:1.9;font-size:14px}
-.action{width:100%;border:0;border-radius:13px;padding:15px;background:linear-gradient(90deg,#087eb8,#12c4ce);font-size:17px;font-weight:bold;color:#00131b;margin-top:10px}
-.small{font-size:11px;color:#7f9daf}#toast{position:absolute;top:22%;left:50%;transform:translateX(-50%);background:#06253be8;padding:10px 18px;border-radius:12px;border:1px solid #2bcfff;opacity:0;transition:opacity .2s}
-@media(min-width:800px){.pad,#fire{display:none}}
+:root{--cyan:#55eaff;--blue:#168dff;--panel:#071827eF}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#06101d;color:#effaff;font-family:Tahoma,Arial,sans-serif;touch-action:none}canvas{display:block}
+#ui{position:fixed;inset:0;pointer-events:none}.top{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;direction:rtl}.chip{padding:9px 12px;border:1px solid #57ddff66;background:#041522cc;border-radius:12px;backdrop-filter:blur(8px);font-size:12px;box-shadow:0 0 18px #00bfff16}.chip b{color:#8cf3ff}
+#cross{position:absolute;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%);border:1px solid #a8f7ff;border-radius:50%;box-shadow:0 0 12px #24dfff}
+#cross:before,#cross:after{content:"";position:absolute;background:#a8f7ff}#cross:before{width:32px;height:1px;left:-7px;top:9px}#cross:after{height:32px;width:1px;top:-7px;left:9px}
+#bottom{position:absolute;bottom:15px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:end;direction:ltr}
+#stick{width:124px;height:124px;border-radius:50%;border:1px solid #6ceaff88;background:#06283b88;position:relative;pointer-events:auto;touch-action:none;box-shadow:inset 0 0 22px #00bfff22}
+#knob{position:absolute;width:48px;height:48px;left:38px;top:38px;border-radius:50%;background:linear-gradient(145deg,#67f1ff,#0789c9);box-shadow:0 0 18px #00cfff88}
+#jump{pointer-events:auto;width:70px;height:70px;border-radius:50%;border:1px solid #8cefff;background:#075b7dcc;color:white;font-weight:bold}
+#menu{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(ellipse at 50% 35%,#123b58eF,#030914f7)}
+.panel{width:min(470px,100%);padding:26px;border-radius:24px;border:1px solid #54dfff88;background:#071827f2;box-shadow:0 0 70px #00bfff26;text-align:center}
+h1{font-size:38px;letter-spacing:3px;margin:0;color:#9af4ff;text-shadow:0 0 24px #00cfff}h2{font-size:18px;color:#dffaff;margin:6px 0 10px}p{font-size:13px;line-height:2;color:#bad2df}
+.btn{width:100%;border:0;border-radius:13px;padding:14px;margin-top:9px;font-size:15px;font-weight:bold;background:linear-gradient(90deg,#087eb8,#12c6cf);color:#00121c}
+.btn.secondary{background:#102d42;color:#d8f8ff;border:1px solid #3e9fba}
+#hint{font-size:11px;color:#7194a8}#notice{position:absolute;top:22%;left:50%;transform:translateX(-50%);padding:10px 16px;border:1px solid #59eaff;background:#061b2beF;border-radius:12px;opacity:0;transition:opacity .2s;white-space:nowrap}
+#mobileTip{position:absolute;bottom:148px;left:14px;color:#b8dce9;font-size:11px;text-shadow:0 2px 4px #000}
+@media(min-width:850px){#stick,#jump,#mobileTip{display:none}}
 </style></head>
-<body><canvas id="game"></canvas>
-<div id="hud"><div class="top"><div class="pill">COMBAT PG · ARENA</div><div class="pill">امتیاز: <b id="score">۰</b></div><div class="pill">انرژی: <b id="hp">۱۰۰</b></div></div><div id="center"></div><div id="toast"></div>
-<div id="bottom"><div class="pad"><span></span><button class="ctrl" data-m="f">▲</button><span></span><button class="ctrl" data-m="l">◀</button><button class="ctrl" data-m="b">▼</button><button class="ctrl" data-m="r">▶</button></div><button id="fire">پالس انرژی</button></div></div>
-<div id="menu"><div class="panel"><h1>COMBAT PG</h1><p>به میدان تمرینی خوش آمدی! ربات‌های تمرینی را پیدا کن، با پالس انرژی امتیاز بگیر و رکوردت را بالا ببر.</p><button class="action" id="start">شروع بازی</button><p class="small">کاملاً آزمایشی · قابل اجرا در مرورگر موبایل و کامپیوتر</p></div></div>
-<script>
-(()=>{const c=document.getElementById('game'),ctx=c.getContext('2d');let W,H,playing=false,score=0,hp=100,px=0,pz=0,angle=0,keys={},targets=[],last=0;
-function resize(){W=c.width=innerWidth*devicePixelRatio;H=c.height=innerHeight*devicePixelRatio;ctx.setTransform(1,0,0,1,0,0)}addEventListener('resize',resize);resize();
-function spawn(){targets=[];for(let i=0;i<9;i++){let a=(Math.random()-.5)*2.3;targets.push({x:Math.sin(a)* (4+Math.random()*5),z:7+Math.random()*13,r:.55+Math.random()*.25,alive:true,phase:Math.random()*6})}}
-function toast(t){let e=document.getElementById('toast');e.textContent=t;e.style.opacity=1;setTimeout(()=>e.style.opacity=0,900)}
-function draw(){ctx.fillStyle='#091727';ctx.fillRect(0,0,W,H);let horizon=H*.43;let sky=ctx.createLinearGradient(0,0,0,horizon);sky.addColorStop(0,'#07111f');sky.addColorStop(1,'#17415b');ctx.fillStyle=sky;ctx.fillRect(0,0,W,horizon);ctx.fillStyle='#132c3b';ctx.fillRect(0,horizon,W,H-horizon);
-ctx.strokeStyle='#2b7995';ctx.globalAlpha=.32;ctx.lineWidth=1;for(let i=-12;i<=12;i++){let x=W/2+i*W/14;ctx.beginPath();ctx.moveTo(W/2+(x-W/2)*.08,horizon);ctx.lineTo(x,H);ctx.stroke()}for(let j=1;j<14;j++){let y=horizon+(H-horizon)*(j/14)**2;ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke()}ctx.globalAlpha=1;
-let fov=1.05;targets.filter(t=>t.alive).sort((a,b)=>b.z-a.z).forEach(t=>{let dx=t.x-px,dz=t.z-pz,dist=Math.hypot(dx,dz),rel=Math.atan2(dx,dz)-angle;while(rel>Math.PI)rel-=Math.PI*2;while(rel< -Math.PI)rel+=Math.PI*2;if(Math.abs(rel)>fov/2+.2)return;let sx=W/2+Math.tan(rel)/Math.tan(fov/2)*W/2,sz=H*.43+(H*.57)*(1-1/(1+dist*.14));let size=Math.min(H*.38,H*.85/(dist*.17+1));let bob=Math.sin(performance.now()/400+t.phase)*size*.025;ctx.fillStyle='#05131e';ctx.beginPath();ctx.ellipse(sx,sz+size*.38,size*.22,size*.06,0,0,Math.PI*2);ctx.fill();ctx.fillStyle='#1c6d8a';ctx.fillRect(sx-size*.19,sz-size*.28+bob,size*.38,size*.55);ctx.fillStyle='#55eaff';ctx.fillRect(sx-size*.14,sz-size*.22+bob,size*.28,size*.1);ctx.fillStyle='#a4f7ff';ctx.fillRect(sx-size*.09,sz-size*.2+bob,size*.06,size*.045);ctx.fillRect(sx+size*.03,sz-size*.2+bob,size*.06,size*.045);ctx.strokeStyle='#46c9e8';ctx.lineWidth=Math.max(1,size*.025);ctx.strokeRect(sx-size*.19,sz-size*.28+bob,size*.38,size*.55)});
-if(playing){let t=performance.now();if(t-last>1000){last=t;targets.forEach(o=>o.phase+=.2)}}
-requestAnimationFrame(draw)}
-function fire(){if(!playing)return;let best=null,bd=99;for(let t of targets){if(!t.alive)continue;let rel=Math.atan2(t.x-px,t.z-pz)-angle;while(rel>Math.PI)rel-=Math.PI*2;while(rel< -Math.PI)rel+=Math.PI*2;let d=Math.hypot(t.x-px,t.z-pz);if(Math.abs(rel)<.09&&d<bd){best=t;bd=d}}if(best){best.alive=false;score+=10;document.getElementById('score').textContent=score.toLocaleString('fa-IR');toast('هدف تمرینی پیدا شد! +۱۰')}else toast('هدف در مرکز دید نیست');if(targets.every(t=>!t.alive)){spawn();toast('مرحله بعدی!')}}
-function move(){if(keys.f){px+=Math.sin(angle)*.09;pz+=Math.cos(angle)*.09}if(keys.b){px-=Math.sin(angle)*.09;pz-=Math.cos(angle)*.09}if(keys.l)angle-=.035;if(keys.r)angle+=.035}
-setInterval(()=>{if(playing)move()},16);
-document.getElementById('start').onclick=()=>{document.getElementById('menu').style.display='none';playing=true;spawn();last=performance.now();if(innerWidth>800)c.requestPointerLock?.()};
-document.getElementById('fire').onpointerdown=e=>{e.preventDefault();fire()};
-document.querySelectorAll('[data-m]').forEach(b=>{let k=b.dataset.m;b.onpointerdown=e=>{e.preventDefault();keys[k]=true};['pointerup','pointercancel','pointerleave'].forEach(ev=>b.addEventListener(ev,()=>keys[k]=false))});
-addEventListener('keydown',e=>{if(e.code==='KeyW'||e.code==='ArrowUp')keys.f=true;if(e.code==='KeyS'||e.code==='ArrowDown')keys.b=true;if(e.code==='KeyA'||e.code==='ArrowLeft')keys.l=true;if(e.code==='KeyD'||e.code==='ArrowRight')keys.r=true;if(e.code==='Space')fire()});
-addEventListener('keyup',e=>{if(['KeyW','ArrowUp'].includes(e.code))keys.f=false;if(['KeyS','ArrowDown'].includes(e.code))keys.b=false;if(['KeyA','ArrowLeft'].includes(e.code))keys.l=false;if(['KeyD','ArrowRight'].includes(e.code))keys.r=false});
-let dragging=false,lastX=0;c.addEventListener('pointerdown',e=>{if(e.target===c){dragging=true;lastX=e.clientX}});addEventListener('pointerup',()=>dragging=false);addEventListener('pointermove',e=>{if(dragging&&playing){angle+=(e.clientX-lastX)*.004;lastX=e.clientX}});
-document.getElementById('hp').textContent=hp.toLocaleString('fa-IR');draw();
-})();
+<body>
+<div id="ui"><div class="top"><div class="chip">COMBAT PG <b> / NEON ARENA</b></div><div class="chip">انرژی: <b id="score">۰ / ۱۰</b></div><div class="chip">زمان: <b id="time">۰۳:۰۰</b></div><div class="chip">رکورد: <b id="best">۰</b></div></div><div id="cross"></div><div id="notice"></div><div id="bottom"><div id="stick"><div id="knob"></div></div><button id="jump">پرش</button></div><div id="mobileTip">برای چرخاندن دید، صفحه را بکش</div></div>
+<div id="menu"><div class="panel"><h1>COMBAT PG</h1><h2>NEON ARENA</h2><p>به میدان نئون خوش آمدی. در نقشه حرکت کن، گوی‌های انرژی را جمع کن و سه سکوی نورانی را فعال نگه دار. زمان محدود است؛ رکورد خودت را بشکن!</p><button class="btn" id="start">شروع مسابقه</button><button class="btn secondary" id="quality">کیفیت گرافیک: متعادل</button><p id="hint">موبایل: جوی‌استیک حرکت + کشیدن صفحه برای چرخش + پرش<br>کامپیوتر: WASD حرکت · ماوس چرخش · Space پرش</p></div></div>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js';
+const $=id=>document.getElementById(id);
+let renderer,scene,camera,clock,quality=1,started=false,ended=false,score=0,timeLeft=180,best=Number(localStorage.getItem('cpgBest')||0);
+$('best').textContent=best.toLocaleString('fa-IR');
+try{
+renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;document.body.prepend(renderer.domElement);
+}catch(e){$('hint').textContent='مرورگر این دستگاه از گرافیک سه‌بعدی پشتیبانی کامل نمی‌کند.';throw e}
+scene=new THREE.Scene();scene.background=new THREE.Color(0x071522);scene.fog=new THREE.Fog(0x071522,22,65);
+camera=new THREE.PerspectiveCamera(76,innerWidth/innerHeight,.1,100);camera.position.set(0,1.7,9);
+clock=new THREE.Clock();
+scene.add(new THREE.HemisphereLight(0x9beaff,0x132238,1.6));
+const key=new THREE.DirectionalLight(0xc8f6ff,2.1);key.position.set(-8,14,8);key.castShadow=true;key.shadow.mapSize.set(1024,1024);scene.add(key);
+const cyan=new THREE.PointLight(0x00cfff,25,24);cyan.position.set(0,5,0);scene.add(cyan);
+const mag=new THREE.PointLight(0x8a4dff,18,20);mag.position.set(-10,4,-10);scene.add(mag);
+const mats={floor:new THREE.MeshStandardMaterial({color:0x142a3a,roughness:.8}),wall:new THREE.MeshStandardMaterial({color:0x203b50,metalness:.45,roughness:.55}),dark:new THREE.MeshStandardMaterial({color:0x091725,metalness:.6,roughness:.4}),glow:new THREE.MeshStandardMaterial({color:0x20dfff,emissive:0x009fce,emissiveIntensity:2.5}),purple:new THREE.MeshStandardMaterial({color:0x9d68ff,emissive:0x5824bb,emissiveIntensity:2}),white:new THREE.MeshStandardMaterial({color:0xc6faff,emissive:0x3baacb,emissiveIntensity:.5})};
+function box(x,y,z,sx,sy,sz,mat,sh=true){let m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),mat);m.position.set(x,y,z);m.castShadow=sh;m.receiveShadow=true;scene.add(m);return m}
+box(0,-.35,0,38,.7,38,mats.floor);
+for(let i=-18;i<=18;i+=2){box(i,.012,0,.025,.02,36,mats.glow,false);box(0,.013,i,36,.02,.025,mats.glow,false)}
+// perimeter and modular arena architecture
+box(0,2,-19,38,4,.8,mats.wall);box(0,2,19,38,4,.8,mats.wall);box(-19,2,0,.8,4,38,mats.wall);box(19,2,0,.8,4,38,mats.wall);
+for(let i=-15;i<=15;i+=6){box(i,4.15,-18.45,2.4,.12,.12,mats.glow,false);box(i,4.15,18.45,2.4,.12,.12,mats.purple,false);box(-18.45,4.15,i,.12,.12,2.4,mats.glow,false);box(18.45,4.15,i,.12,.12,2.4,mats.purple,false)}
+// cover blocks, raised routes, ramps represented by steps
+for(let i=0;i<8;i++){let x=(i%4)*8-12,z=Math.floor(i/4)*-12-1;box(x,.8,z,3.2,1.6,2.8,i%2?mats.wall:mats.dark);box(x,1.65,z,2.9,.08,2.5,mats.glow,false)}
+for(let i=0;i<4;i++){let x=i<2?-10:10,z=i%2?-7:7;box(x,1.1,z,4,2.2,4,mats.wall);box(x,2.25,z,3.8,.1,3.8,mats.purple,false)}
+// tall pylons
+for(let x of [-16,16])for(let z of [-16,16]){box(x,3,z,1.2,6,1.2,mats.dark);let orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.65,1),mats.glow);orb.position.set(x,6.5,z);scene.add(orb)}
+// central beacon
+box(0,.35,0,4,.7,4,mats.dark);let beacon=new THREE.Mesh(new THREE.CylinderGeometry(.3,.55,3,12),mats.glow);beacon.position.y=2;scene.add(beacon);
+let rings=[];for(let i=0;i<3;i++){let ring=new THREE.Mesh(new THREE.TorusGeometry(1.05+i*.28,.035,8,48),i%2?mats.purple:mats.glow);ring.position.set(0,1.7+i*.55,0);ring.rotation.x=Math.PI/2;scene.add(ring);rings.push(ring)}
+// collectible energy orbs
+let orbs=[];const orbGeo=new THREE.IcosahedronGeometry(.38,1);
+function addOrb(x,y,z){let o=new THREE.Mesh(orbGeo,mats.white);o.position.set(x,y,z);o.userData={base:y,phase:Math.random()*6,active:true};scene.add(o);let halo=new THREE.Mesh(new THREE.TorusGeometry(.55,.025,6,24),mats.glow);halo.position.copy(o.position);halo.rotation.x=Math.PI/2;scene.add(halo);orbs.push({mesh:o,halo})}
+[[-13,1,-12],[-5,1,13],[13,1,12],[5,1,-13],[-15,1,3],[15,1,-3],[0,2.7,-9],[0,2.7,9],[-9,2.8,0],[9,2.8,0],[0,1,15],[0,1,-15]].forEach(p=>addOrb(...p));
+// three capture pads
+let pads=[];for(let p of [[-11,.08,-1],[11,.08,1],[0,.08,-13]]){let g=new THREE.Group();g.position.set(...p);let base=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.7,.18,32),mats.dark);g.add(base);let tor=new THREE.Mesh(new THREE.TorusGeometry(1.35,.08,8,48),mats.glow);tor.rotation.x=Math.PI/2;tor.position.y=.16;g.add(tor);let col=new THREE.Mesh(new THREE.CylinderGeometry(.08,.08,2,12),mats.glow);col.position.y=1.1;g.add(col);scene.add(g);pads.push({group:g,progress:0,done:false,ring:tor})}
+// moving luminous drones as moving obstacles / visual activity
+let drones=[];for(let i=0;i<4;i++){let g=new THREE.Group();let core=new THREE.Mesh(new THREE.OctahedronGeometry(.42),i%2?mats.purple:mats.glow);g.add(core);let hoop=new THREE.Mesh(new THREE.TorusGeometry(.7,.035,6,24),mats.white);hoop.rotation.x=Math.PI/2;g.add(hoop);scene.add(g);drones.push({g,a:i*Math.PI/2,r:7+i*1.4,y:2.1+i*.55,speed:.22+i*.04})}
+let player={x:0,z:9,y:1.7,vy:0,yaw:Math.PI,pitch:0};camera.position.set(player.x,player.y,player.z);
+const keys={};let joy={x:0,y:0},drag=false,lastX=0,lastY=0;
+function notice(t){$('notice').textContent=t;$('notice').style.opacity=1;setTimeout(()=>$('notice').style.opacity=0,1100)}
+function sound(freq=620){try{let a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.05,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.16);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.17);setTimeout(()=>a.close(),300)}catch(e){}}
+function updateHud(){$('score').textContent=score.toLocaleString('fa-IR')+' / ۱۰';let m=Math.floor(timeLeft/60),s=Math.floor(timeLeft%60);$('time').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
+function finish(win){ended=true;started=false;if(score>best){best=score;localStorage.setItem('cpgBest',best);$('best').textContent=best.toLocaleString('fa-IR')}$('menu').style.display='flex';$('menu').querySelector('h2').textContent=win?'مرحله کامل شد!':'زمان تمام شد';$('menu').querySelector('p').textContent='امتیاز نهایی: '+score+' — رکوردت را بهتر کن!';$('start').textContent='بازی دوباره';}
+function collect(){let got=false;for(let o of orbs){if(!o.mesh.visible)continue;if(camera.position.distanceTo(o.mesh.position)<1.25){o.mesh.visible=false;o.halo.visible=false;score++;got=true;sound(740);notice('گوی انرژی جمع شد! +۱');break}}if(got)updateHud()}
+function update(dt,t){if(!started)return;timeLeft-=dt;if(timeLeft<=0){timeLeft=0;updateHud();finish(false);return}
+let speed=7.5*dt*(keys.Shift?1.45:1);let forward=(keys.KeyW||keys.ArrowUp?-1:0)+(keys.KeyS||keys.ArrowDown?1:0)-joy.y;let side=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0)+joy.x;
+let len=Math.hypot(forward,side);if(len>1){forward/=len;side/=len}
+let dx=(-Math.sin(player.yaw)*forward+Math.cos(player.yaw)*side)*speed;let dz=(-Math.cos(player.yaw)*forward-Math.sin(player.yaw)*side)*speed;
+let nx=THREE.MathUtils.clamp(player.x+dx,-17.4,17.4),nz=THREE.MathUtils.clamp(player.z+dz,-17.4,17.4);
+// simple obstacle boundaries
+function blocked(x,z){for(let ox of [-12,-4,4,12])for(let oz of [-1,-13])if(Math.abs(x-ox)<1.85&&Math.abs(z-oz)<1.7)return true;for(let x0 of [-10,10])for(let z0 of [-7,7])if(Math.abs(x-x0)<2.25&&Math.abs(z-z0)<2.25)return true;return false}
+if(!blocked(nx,player.z))player.x=nx;if(!blocked(player.x,nz))player.z=nz;
+player.vy-=18*dt;player.y+=player.vy*dt;if(player.y<1.7){player.y=1.7;player.vy=0}
+camera.position.set(player.x,player.y,player.z);camera.rotation.order='YXZ';camera.rotation.y=player.yaw;camera.rotation.x=player.pitch;
+for(let i=0;i<orbs.length;i++){let o=orbs[i];o.mesh.rotation.y+=dt*1.4;o.mesh.position.y=o.mesh.userData.base+Math.sin(t*2+o.mesh.userData.phase)*.14;o.halo.position.copy(o.mesh.position);o.halo.rotation.z+=dt*.8}
+for(let d of drones){d.a+=dt*d.speed;d.g.position.set(Math.cos(d.a)*d.r,d.y+Math.sin(t*2+d.a)*.35,Math.sin(d.a)*d.r);d.g.rotation.y+=dt}
+rings.forEach((r,i)=>{r.rotation.z+=dt*(i%2?-.6:.5);r.position.y=1.7+i*.55+Math.sin(t*1.6+i)*.1});
+for(let p of pads){let dist=Math.hypot(player.x-p.group.position.x,player.z-p.group.position.z);if(dist<1.65&&!p.done){p.progress+=dt;p.ring.material=p.progress>4?mats.purple:mats.glow;if(p.progress>=4){p.done=true;score+=3;updateHud();sound(920);notice('سکوی انرژی فعال شد! +۳')}}}
+if(pads.every(p=>p.done)){finish(true);return}
+collect();updateHud();
+}
+let jump=()=>{if(player.y<=1.71)player.vy=7.4};$('jump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
+$('stick').addEventListener('pointerdown',e=>{e.preventDefault();$('stick').setPointerCapture(e.pointerId);joyMove(e)});$('stick').addEventListener('pointermove',e=>{if(e.buttons||e.pressure)joyMove(e)});function joyMove(e){let r=$('stick').getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=e.clientX-cx,dy=e.clientY-cy,max=39,l=Math.hypot(dx,dy);if(l>max){dx=dx/l*max;dy=dy/l*max}$('knob').style.transform='translate('+dx+'px,'+dy+'px)';joy.x=dx/max;joy.y=dy/max}
+function resetJoy(){joy.x=joy.y=0;$('knob').style.transform='translate(0,0)'}$('stick').addEventListener('pointerup',resetJoy);$('stick').addEventListener('pointercancel',resetJoy);$('stick').addEventListener('lostpointercapture',resetJoy);
+renderer.domElement.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&started){renderer.domElement.requestPointerLock?.()}else if(e.pointerType!=='mouse'&&started){drag=true;lastX=e.clientX;lastY=e.clientY}});
+document.addEventListener('pointerlockchange',()=>{drag=document.pointerLockElement===renderer.domElement});
+addEventListener('pointerup',()=>drag=false);addEventListener('pointermove',e=>{if(!started)return;if(document.pointerLockElement===renderer.domElement){player.yaw-=e.movementX*.0022;player.pitch=THREE.MathUtils.clamp(player.pitch-e.movementY*.0022,-1.2,1.2)}else if(drag&&e.pointerType!=='mouse'){player.yaw-=(e.clientX-lastX)*.006;player.pitch=THREE.MathUtils.clamp(player.pitch-(e.clientY-lastY)*.004,-1.15,1.15);lastX=e.clientX;lastY=e.clientY}});
+addEventListener('keydown',e=>{keys[e.code]=true;if(e.code==='Space')jump()});addEventListener('keyup',e=>keys[e.code]=false);
+$('start').onclick=()=>{score=0;timeLeft=180;ended=false;started=true;player.x=0;player.z=9;player.y=1.7;player.yaw=Math.PI;player.pitch=0;orbs.forEach(o=>{o.mesh.visible=true;o.halo.visible=true});pads.forEach(p=>{p.done=false;p.progress=0;p.ring.material=mats.glow});$('menu').style.display='none';updateHud();clock.getDelta();notice('سه سکوی انرژی را فعال کن!');if(innerWidth>850)renderer.domElement.requestPointerLock?.()};
+$('quality').onclick=()=>{quality=quality===1?0:1;renderer.setPixelRatio(Math.min(devicePixelRatio,quality?1.5:1));renderer.shadowMap.enabled=!!quality;$('quality').textContent='کیفیت گرافیک: '+(quality?'متعادل':'سبک')};
+addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,quality?1.5:1))});
+let elapsed=0;renderer.setAnimationLoop(()=>{let dt=Math.min(clock.getDelta(),.04);elapsed+=dt;update(dt,elapsed);renderer.render(scene,camera)});
 </script></body></html>
