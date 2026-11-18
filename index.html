@@ -2,100 +2,80 @@
 <html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<meta name="theme-color" content="#06101d"><title>COMBAT PG — Neon Arena</title>
+<meta name="theme-color" content="#10251b"><title>COMBAT PG — Wild Arena</title>
 <style>
-:root{--cyan:#55eaff;--blue:#168dff;--panel:#071827eF}*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#06101d;color:#effaff;font-family:Tahoma,Arial,sans-serif;touch-action:none}canvas{display:block}
-#ui{position:fixed;inset:0;pointer-events:none}.top{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:8px;direction:rtl}.chip{padding:9px 12px;border:1px solid #57ddff66;background:#041522cc;border-radius:12px;backdrop-filter:blur(8px);font-size:12px;box-shadow:0 0 18px #00bfff16}.chip b{color:#8cf3ff}
-#cross{position:absolute;left:50%;top:50%;width:20px;height:20px;transform:translate(-50%,-50%);border:1px solid #a8f7ff;border-radius:50%;box-shadow:0 0 12px #24dfff}
-#cross:before,#cross:after{content:"";position:absolute;background:#a8f7ff}#cross:before{width:32px;height:1px;left:-7px;top:9px}#cross:after{height:32px;width:1px;top:-7px;left:9px}
-#bottom{position:absolute;bottom:15px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:end;direction:ltr}
-#stick{width:124px;height:124px;border-radius:50%;border:1px solid #6ceaff88;background:#06283b88;position:relative;pointer-events:auto;touch-action:none;box-shadow:inset 0 0 22px #00bfff22}
-#knob{position:absolute;width:48px;height:48px;left:38px;top:38px;border-radius:50%;background:linear-gradient(145deg,#67f1ff,#0789c9);box-shadow:0 0 18px #00cfff88}
-#jump{pointer-events:auto;width:70px;height:70px;border-radius:50%;border:1px solid #8cefff;background:#075b7dcc;color:white;font-weight:bold}
-#menu{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:radial-gradient(ellipse at 50% 35%,#123b58eF,#030914f7)}
-.panel{width:min(470px,100%);padding:26px;border-radius:24px;border:1px solid #54dfff88;background:#071827f2;box-shadow:0 0 70px #00bfff26;text-align:center}
-h1{font-size:38px;letter-spacing:3px;margin:0;color:#9af4ff;text-shadow:0 0 24px #00cfff}h2{font-size:18px;color:#dffaff;margin:6px 0 10px}p{font-size:13px;line-height:2;color:#bad2df}
-.btn{width:100%;border:0;border-radius:13px;padding:14px;margin-top:9px;font-size:15px;font-weight:bold;background:linear-gradient(90deg,#087eb8,#12c6cf);color:#00121c}
-.btn.secondary{background:#102d42;color:#d8f8ff;border:1px solid #3e9fba}
-#hint{font-size:11px;color:#7194a8}#notice{position:absolute;top:22%;left:50%;transform:translateX(-50%);padding:10px 16px;border:1px solid #59eaff;background:#061b2beF;border-radius:12px;opacity:0;transition:opacity .2s;white-space:nowrap}
-#mobileTip{position:absolute;bottom:148px;left:14px;color:#b8dce9;font-size:11px;text-shadow:0 2px 4px #000}
-@media(min-width:850px){#stick,#jump,#mobileTip{display:none}}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#13271c;color:#f2fff5;font-family:Tahoma,Arial,sans-serif;touch-action:none}canvas{display:block}
+#ui{position:fixed;inset:0;pointer-events:none}.top{position:absolute;top:10px;left:10px;right:10px;display:flex;justify-content:space-between;gap:7px;direction:rtl;flex-wrap:wrap}.chip{padding:9px 12px;border:1px solid #d6f7cb66;background:#10251dcc;border-radius:12px;backdrop-filter:blur(8px);font-size:12px;box-shadow:0 3px 16px #0005}.chip b{color:#c9ff91}
+#cross{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%);border:1px solid #eaffd6;border-radius:50%;box-shadow:0 0 10px #b9ff82}#cross:before,#cross:after{content:"";position:absolute;background:#eaffd6}#cross:before{width:32px;height:1px;left:-6px;top:10px}#cross:after{height:32px;width:1px;top:-6px;left:10px}
+#bottom{position:absolute;bottom:14px;left:14px;right:14px;display:flex;justify-content:space-between;align-items:end;direction:ltr}#stick{width:116px;height:116px;border-radius:50%;border:1px solid #d9ffc488;background:#183b2b99;position:relative;pointer-events:auto;touch-action:none;box-shadow:inset 0 0 20px #b5ff7c22}#knob{position:absolute;width:46px;height:46px;left:34px;top:34px;border-radius:50%;background:linear-gradient(145deg,#d7ff9b,#4caa50);box-shadow:0 0 16px #9bff6688}
+.controls{display:flex;gap:10px;align-items:end} .action{pointer-events:auto;width:66px;height:66px;border-radius:50%;border:1px solid #e5ffc0;background:#315d35dd;color:white;font-weight:bold;box-shadow:0 3px 14px #0006;touch-action:none}.action.fire{background:linear-gradient(145deg,#ffb44b,#d65a20);border-color:#ffe0a1;width:76px;height:76px}
+#menu{position:fixed;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;padding:18px;background:linear-gradient(#10291abf,#07170feF),radial-gradient(ellipse at 50% 35%,#416d3d,#08150c)}
+.panel{width:min(470px,100%);padding:25px;border-radius:24px;border:1px solid #c8f5a477;background:#10271deb;box-shadow:0 0 55px #86ce4b24;text-align:center}
+h1{font-size:36px;letter-spacing:2px;margin:0;color:#d9ffad;text-shadow:0 0 20px #80c94e}h2{font-size:18px;color:#efffe0;margin:6px 0 10px}p{font-size:13px;line-height:2;color:#d0e5ca}.btn{width:100%;border:0;border-radius:13px;padding:14px;margin-top:9px;font-size:15px;font-weight:bold;background:linear-gradient(90deg,#528e36,#a3c94c);color:#10200e}.btn.secondary{background:#1d3b2b;color:#e6ffdb;border:1px solid #75a85d}#hint{font-size:11px;color:#b8d0b0}#notice{position:absolute;top:20%;left:50%;transform:translateX(-50%);padding:10px 16px;border:1px solid #d7ff9b;background:#10271eed;border-radius:12px;opacity:0;transition:opacity .2s;white-space:nowrap;font-size:13px}
+@media(min-width:850px){#stick,.controls{display:none}}
 </style></head>
 <body>
-<div id="ui"><div class="top"><div class="chip">COMBAT PG <b> / NEON ARENA</b></div><div class="chip">انرژی: <b id="score">۰ / ۱۰</b></div><div class="chip">زمان: <b id="time">۰۳:۰۰</b></div><div class="chip">رکورد: <b id="best">۰</b></div></div><div id="cross"></div><div id="notice"></div><div id="bottom"><div id="stick"><div id="knob"></div></div><button id="jump">پرش</button></div><div id="mobileTip">برای چرخاندن دید، صفحه را بکش</div></div>
-<div id="menu"><div class="panel"><h1>COMBAT PG</h1><h2>NEON ARENA</h2><p>به میدان نئون خوش آمدی. در نقشه حرکت کن، گوی‌های انرژی را جمع کن و سه سکوی نورانی را فعال نگه دار. زمان محدود است؛ رکورد خودت را بشکن!</p><button class="btn" id="start">شروع مسابقه</button><button class="btn secondary" id="quality">کیفیت گرافیک: متعادل</button><p id="hint">موبایل: جوی‌استیک حرکت + کشیدن صفحه برای چرخش + پرش<br>کامپیوتر: WASD حرکت · ماوس چرخش · Space پرش</p></div></div>
+<div id="ui"><div class="top"><div class="chip">COMBAT PG <b>/ WILD ARENA</b></div><div class="chip">امتیاز: <b id="score">۰</b></div><div class="chip">هدف‌ها: <b id="left">۸</b></div><div class="chip">زمان: <b id="time">۰۲:۰۰</b></div><div class="chip">رکورد: <b id="best">۰</b></div></div><div id="cross"></div><div id="notice"></div><div id="bottom"><div id="stick"><div id="knob"></div></div><div class="controls"><button class="action" id="jump">پرش</button><button class="action fire" id="fire">شلیک</button></div></div></div>
+<div id="menu"><div class="panel"><h1>COMBAT PG</h1><h2>WILD ARENA</h2><p>به میدان تمرینی جنگلی خوش آمدی! در مسیرهای طبیعی حرکت کن، پهپادهای تمرینی نورانی را با پالس انرژی نشانه بگیر و رکوردت را بالا ببر.</p><button class="btn" id="start">شروع مسابقه</button><button class="btn secondary" id="quality">کیفیت گرافیک: بالا</button><p id="hint">موبایل: جوی‌استیک + کشیدن سمت راست صفحه برای چرخش + دکمه شلیک و پرش<br>کامپیوتر: WASD حرکت · ماوس چرخش · کلیک شلیک · Space پرش</p></div></div>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.185.0/build/three.module.js';
 const $=id=>document.getElementById(id);
-let renderer,scene,camera,clock,quality=1,started=false,ended=false,score=0,timeLeft=180,best=Number(localStorage.getItem('cpgBest')||0);
+let renderer,scene,camera,clock,quality=1,started=false,score=0,timeLeft=120,best=Number(localStorage.getItem('cpgWildBest')||0);
 $('best').textContent=best.toLocaleString('fa-IR');
-try{
-renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});
-renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;document.body.prepend(renderer.domElement);
-}catch(e){$('hint').textContent='مرورگر این دستگاه از گرافیک سه‌بعدی پشتیبانی کامل نمی‌کند.';throw e}
-scene=new THREE.Scene();scene.background=new THREE.Color(0x071522);scene.fog=new THREE.Fog(0x071522,22,65);
-camera=new THREE.PerspectiveCamera(76,innerWidth/innerHeight,.1,100);camera.position.set(0,1.7,9);
-clock=new THREE.Clock();
-scene.add(new THREE.HemisphereLight(0x9beaff,0x132238,1.6));
-const key=new THREE.DirectionalLight(0xc8f6ff,2.1);key.position.set(-8,14,8);key.castShadow=true;key.shadow.mapSize.set(1024,1024);scene.add(key);
-const cyan=new THREE.PointLight(0x00cfff,25,24);cyan.position.set(0,5,0);scene.add(cyan);
-const mag=new THREE.PointLight(0x8a4dff,18,20);mag.position.set(-10,4,-10);scene.add(mag);
-const mats={floor:new THREE.MeshStandardMaterial({color:0x142a3a,roughness:.8}),wall:new THREE.MeshStandardMaterial({color:0x203b50,metalness:.45,roughness:.55}),dark:new THREE.MeshStandardMaterial({color:0x091725,metalness:.6,roughness:.4}),glow:new THREE.MeshStandardMaterial({color:0x20dfff,emissive:0x009fce,emissiveIntensity:2.5}),purple:new THREE.MeshStandardMaterial({color:0x9d68ff,emissive:0x5824bb,emissiveIntensity:2}),white:new THREE.MeshStandardMaterial({color:0xc6faff,emissive:0x3baacb,emissiveIntensity:.5})};
-function box(x,y,z,sx,sy,sz,mat,sh=true){let m=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),mat);m.position.set(x,y,z);m.castShadow=sh;m.receiveShadow=true;scene.add(m);return m}
-box(0,-.35,0,38,.7,38,mats.floor);
-for(let i=-18;i<=18;i+=2){box(i,.012,0,.025,.02,36,mats.glow,false);box(0,.013,i,36,.02,.025,mats.glow,false)}
-// perimeter and modular arena architecture
-box(0,2,-19,38,4,.8,mats.wall);box(0,2,19,38,4,.8,mats.wall);box(-19,2,0,.8,4,38,mats.wall);box(19,2,0,.8,4,38,mats.wall);
-for(let i=-15;i<=15;i+=6){box(i,4.15,-18.45,2.4,.12,.12,mats.glow,false);box(i,4.15,18.45,2.4,.12,.12,mats.purple,false);box(-18.45,4.15,i,.12,.12,2.4,mats.glow,false);box(18.45,4.15,i,.12,.12,2.4,mats.purple,false)}
-// cover blocks, raised routes, ramps represented by steps
-for(let i=0;i<8;i++){let x=(i%4)*8-12,z=Math.floor(i/4)*-12-1;box(x,.8,z,3.2,1.6,2.8,i%2?mats.wall:mats.dark);box(x,1.65,z,2.9,.08,2.5,mats.glow,false)}
-for(let i=0;i<4;i++){let x=i<2?-10:10,z=i%2?-7:7;box(x,1.1,z,4,2.2,4,mats.wall);box(x,2.25,z,3.8,.1,3.8,mats.purple,false)}
-// tall pylons
-for(let x of [-16,16])for(let z of [-16,16]){box(x,3,z,1.2,6,1.2,mats.dark);let orb=new THREE.Mesh(new THREE.IcosahedronGeometry(.65,1),mats.glow);orb.position.set(x,6.5,z);scene.add(orb)}
-// central beacon
-box(0,.35,0,4,.7,4,mats.dark);let beacon=new THREE.Mesh(new THREE.CylinderGeometry(.3,.55,3,12),mats.glow);beacon.position.y=2;scene.add(beacon);
-let rings=[];for(let i=0;i<3;i++){let ring=new THREE.Mesh(new THREE.TorusGeometry(1.05+i*.28,.035,8,48),i%2?mats.purple:mats.glow);ring.position.set(0,1.7+i*.55,0);ring.rotation.x=Math.PI/2;scene.add(ring);rings.push(ring)}
-// collectible energy orbs
-let orbs=[];const orbGeo=new THREE.IcosahedronGeometry(.38,1);
-function addOrb(x,y,z){let o=new THREE.Mesh(orbGeo,mats.white);o.position.set(x,y,z);o.userData={base:y,phase:Math.random()*6,active:true};scene.add(o);let halo=new THREE.Mesh(new THREE.TorusGeometry(.55,.025,6,24),mats.glow);halo.position.copy(o.position);halo.rotation.x=Math.PI/2;scene.add(halo);orbs.push({mesh:o,halo})}
-[[-13,1,-12],[-5,1,13],[13,1,12],[5,1,-13],[-15,1,3],[15,1,-3],[0,2.7,-9],[0,2.7,9],[-9,2.8,0],[9,2.8,0],[0,1,15],[0,1,-15]].forEach(p=>addOrb(...p));
-// three capture pads
-let pads=[];for(let p of [[-11,.08,-1],[11,.08,1],[0,.08,-13]]){let g=new THREE.Group();g.position.set(...p);let base=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.7,.18,32),mats.dark);g.add(base);let tor=new THREE.Mesh(new THREE.TorusGeometry(1.35,.08,8,48),mats.glow);tor.rotation.x=Math.PI/2;tor.position.y=.16;g.add(tor);let col=new THREE.Mesh(new THREE.CylinderGeometry(.08,.08,2,12),mats.glow);col.position.y=1.1;g.add(col);scene.add(g);pads.push({group:g,progress:0,done:false,ring:tor})}
-// moving luminous drones as moving obstacles / visual activity
-let drones=[];for(let i=0;i<4;i++){let g=new THREE.Group();let core=new THREE.Mesh(new THREE.OctahedronGeometry(.42),i%2?mats.purple:mats.glow);g.add(core);let hoop=new THREE.Mesh(new THREE.TorusGeometry(.7,.035,6,24),mats.white);hoop.rotation.x=Math.PI/2;g.add(hoop);scene.add(g);drones.push({g,a:i*Math.PI/2,r:7+i*1.4,y:2.1+i*.55,speed:.22+i*.04})}
-let player={x:0,z:9,y:1.7,vy:0,yaw:Math.PI,pitch:0};camera.position.set(player.x,player.y,player.z);
-const keys={};let joy={x:0,y:0},drag=false,lastX=0,lastY=0;
-function notice(t){$('notice').textContent=t;$('notice').style.opacity=1;setTimeout(()=>$('notice').style.opacity=0,1100)}
-function sound(freq=620){try{let a=new AudioContext(),o=a.createOscillator(),g=a.createGain();o.frequency.value=freq;o.type='sine';g.gain.setValueAtTime(.05,a.currentTime);g.gain.exponentialRampToValueAtTime(.001,a.currentTime+.16);o.connect(g);g.connect(a.destination);o.start();o.stop(a.currentTime+.17);setTimeout(()=>a.close(),300)}catch(e){}}
-function updateHud(){$('score').textContent=score.toLocaleString('fa-IR')+' / ۱۰';let m=Math.floor(timeLeft/60),s=Math.floor(timeLeft%60);$('time').textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0')}
-function finish(win){ended=true;started=false;if(score>best){best=score;localStorage.setItem('cpgBest',best);$('best').textContent=best.toLocaleString('fa-IR')}$('menu').style.display='flex';$('menu').querySelector('h2').textContent=win?'مرحله کامل شد!':'زمان تمام شد';$('menu').querySelector('p').textContent='امتیاز نهایی: '+score+' — رکوردت را بهتر کن!';$('start').textContent='بازی دوباره';}
-function collect(){let got=false;for(let o of orbs){if(!o.mesh.visible)continue;if(camera.position.distanceTo(o.mesh.position)<1.25){o.mesh.visible=false;o.halo.visible=false;score++;got=true;sound(740);notice('گوی انرژی جمع شد! +۱');break}}if(got)updateHud()}
-function update(dt,t){if(!started)return;timeLeft-=dt;if(timeLeft<=0){timeLeft=0;updateHud();finish(false);return}
-let speed=7.5*dt*(keys.Shift?1.45:1);let forward=(keys.KeyW||keys.ArrowUp?-1:0)+(keys.KeyS||keys.ArrowDown?1:0)-joy.y;let side=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0)+joy.x;
-let len=Math.hypot(forward,side);if(len>1){forward/=len;side/=len}
-let dx=(-Math.sin(player.yaw)*forward+Math.cos(player.yaw)*side)*speed;let dz=(-Math.cos(player.yaw)*forward-Math.sin(player.yaw)*side)*speed;
-let nx=THREE.MathUtils.clamp(player.x+dx,-17.4,17.4),nz=THREE.MathUtils.clamp(player.z+dz,-17.4,17.4);
-// simple obstacle boundaries
-function blocked(x,z){for(let ox of [-12,-4,4,12])for(let oz of [-1,-13])if(Math.abs(x-ox)<1.85&&Math.abs(z-oz)<1.7)return true;for(let x0 of [-10,10])for(let z0 of [-7,7])if(Math.abs(x-x0)<2.25&&Math.abs(z-z0)<2.25)return true;return false}
-if(!blocked(nx,player.z))player.x=nx;if(!blocked(player.x,nz))player.z=nz;
-player.vy-=18*dt;player.y+=player.vy*dt;if(player.y<1.7){player.y=1.7;player.vy=0}
-camera.position.set(player.x,player.y,player.z);camera.rotation.order='YXZ';camera.rotation.y=player.yaw;camera.rotation.x=player.pitch;
-for(let i=0;i<orbs.length;i++){let o=orbs[i];o.mesh.rotation.y+=dt*1.4;o.mesh.position.y=o.mesh.userData.base+Math.sin(t*2+o.mesh.userData.phase)*.14;o.halo.position.copy(o.mesh.position);o.halo.rotation.z+=dt*.8}
-for(let d of drones){d.a+=dt*d.speed;d.g.position.set(Math.cos(d.a)*d.r,d.y+Math.sin(t*2+d.a)*.35,Math.sin(d.a)*d.r);d.g.rotation.y+=dt}
-rings.forEach((r,i)=>{r.rotation.z+=dt*(i%2?-.6:.5);r.position.y=1.7+i*.55+Math.sin(t*1.6+i)*.1});
-for(let p of pads){let dist=Math.hypot(player.x-p.group.position.x,player.z-p.group.position.z);if(dist<1.65&&!p.done){p.progress+=dt;p.ring.material=p.progress>4?mats.purple:mats.glow;if(p.progress>=4){p.done=true;score+=3;updateHud();sound(920);notice('سکوی انرژی فعال شد! +۳')}}}
-if(pads.every(p=>p.done)){finish(true);return}
-collect();updateHud();
-}
-let jump=()=>{if(player.y<=1.71)player.vy=7.4};$('jump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});
-$('stick').addEventListener('pointerdown',e=>{e.preventDefault();$('stick').setPointerCapture(e.pointerId);joyMove(e)});$('stick').addEventListener('pointermove',e=>{if(e.buttons||e.pressure)joyMove(e)});function joyMove(e){let r=$('stick').getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=e.clientX-cx,dy=e.clientY-cy,max=39,l=Math.hypot(dx,dy);if(l>max){dx=dx/l*max;dy=dy/l*max}$('knob').style.transform='translate('+dx+'px,'+dy+'px)';joy.x=dx/max;joy.y=dy/max}
-function resetJoy(){joy.x=joy.y=0;$('knob').style.transform='translate(0,0)'}$('stick').addEventListener('pointerup',resetJoy);$('stick').addEventListener('pointercancel',resetJoy);$('stick').addEventListener('lostpointercapture',resetJoy);
-renderer.domElement.addEventListener('pointerdown',e=>{if(e.pointerType==='mouse'&&started){renderer.domElement.requestPointerLock?.()}else if(e.pointerType!=='mouse'&&started){drag=true;lastX=e.clientX;lastY=e.clientY}});
-document.addEventListener('pointerlockchange',()=>{drag=document.pointerLockElement===renderer.domElement});
-addEventListener('pointerup',()=>drag=false);addEventListener('pointermove',e=>{if(!started)return;if(document.pointerLockElement===renderer.domElement){player.yaw-=e.movementX*.0022;player.pitch=THREE.MathUtils.clamp(player.pitch-e.movementY*.0022,-1.2,1.2)}else if(drag&&e.pointerType!=='mouse'){player.yaw-=(e.clientX-lastX)*.006;player.pitch=THREE.MathUtils.clamp(player.pitch-(e.clientY-lastY)*.004,-1.15,1.15);lastX=e.clientX;lastY=e.clientY}});
+try{renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));renderer.setSize(innerWidth,innerHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.05;document.body.prepend(renderer.domElement)}catch(e){$('hint').textContent='مرورگر این دستگاه گرافیک سه‌بعدی را پشتیبانی نمی‌کند.';throw e}
+scene=new THREE.Scene();scene.background=new THREE.Color(0x9fc8d0);scene.fog=new THREE.Fog(0xa9c9bd,34,105);
+camera=new THREE.PerspectiveCamera(76,innerWidth/innerHeight,.1,180);clock=new THREE.Clock();
+scene.add(new THREE.HemisphereLight(0xe8f8ff,0x435d36,1.65));
+const sun=new THREE.DirectionalLight(0xffefcf,2.35);sun.position.set(-24,35,18);sun.castShadow=true;sun.shadow.mapSize.set(1024,1024);sun.shadow.camera.left=-32;sun.shadow.camera.right=32;sun.shadow.camera.top=32;sun.shadow.camera.bottom=-32;scene.add(sun);
+const fill=new THREE.DirectionalLight(0x9ccfff,.55);fill.position.set(20,12,-18);scene.add(fill);
+const mat=(c,r=.9,m=0)=>new THREE.MeshStandardMaterial({color:c,roughness:r,metalness:m});
+const grass=mat(0x527b3c),grass2=mat(0x668c46),dirt=mat(0x806345),bark=mat(0x65432b),leaf1=mat(0x315f36),leaf2=mat(0x477b3b),leaf3=mat(0x78964b),rock=mat(0x68766a),water= new THREE.MeshStandardMaterial({color:0x3e9eaa,roughness:.25,metalness:.12,transparent:true,opacity:.82}),glow=new THREE.MeshStandardMaterial({color:0xbaff6b,emissive:0x5bce28,emissiveIntensity:2.2}),glowBlue=new THREE.MeshStandardMaterial({color:0x75eaff,emissive:0x1498d0,emissiveIntensity:2.4});
+function mesh(geo,material,x,y,z,scale){const o=new THREE.Mesh(geo,material);o.position.set(x,y,z);if(scale)o.scale.set(...scale);o.castShadow=true;o.receiveShadow=true;scene.add(o);return o}
+const ground=mesh(new THREE.PlaneGeometry(150,150,70,70),grass,0,-.35,0);ground.rotation.x=-Math.PI/2;
+// gently rolling terrain
+const pos=ground.geometry.attributes.position;for(let i=0;i<pos.count;i++){const x=pos.getX(i),y=pos.getY(i);pos.setZ(i,Math.sin(x*.11)*.32+Math.cos(y*.13)*.28+Math.sin((x+y)*.07)*.18)}ground.geometry.computeVertexNormals();
+// distant forested hills
+for(let i=0;i<18;i++){const a=i/18*Math.PI*2,r=55+Math.random()*12,x=Math.cos(a)*r,z=Math.sin(a)*r;mesh(new THREE.ConeGeometry(13+Math.random()*7,17+Math.random()*10,7),i%2?leaf1:leaf2,x,5,z)}
+// forest trees with layered foliage
+const treeSpots=[];for(let x=-42;x<=42;x+=6)for(let z=-42;z<=42;z+=6){if(Math.hypot(x,z)<17)continue;if(Math.random()<.58)treeSpots.push([x+(Math.random()-.5)*3,z+(Math.random()-.5)*3])}
+for(const [x,z] of treeSpots){const h=3.3+Math.random()*2.8;mesh(new THREE.CylinderGeometry(.18,.32,h,7),bark,x,h/2-.1,z);const crownMat=[leaf1,leaf2,leaf3][Math.floor(Math.random()*3)];mesh(new THREE.ConeGeometry(1.5+Math.random()*.7,3.3,7),crownMat,x,h+1,z);mesh(new THREE.ConeGeometry(1.18,2.7,7),crownMat,x,h+2,z);}
+// scattered grass tufts
+const tuftGeo=new THREE.ConeGeometry(.09,.55,4);for(let i=0;i<360;i++){const x=(Math.random()-.5)*88,z=(Math.random()-.5)*88;if(Math.hypot(x,z)<4)continue;const t=mesh(tuftGeo,i%3?grass2:leaf3,x,.12,z,[1,1+Math.random()*1.4,1]);t.rotation.z=(Math.random()-.5)*.5}
+// winding dirt trail made from connected flat segments
+const pathPts=[[-3,12],[-2,6],[1,1],[5,-5],[3,-12],[0,-20]];for(let i=0;i<pathPts.length-1;i++){const [x,z]=pathPts[i],[nx,nz]=pathPts[i+1],dx=nx-x,dz=nz-z,len=Math.hypot(dx,dz);const p=mesh(new THREE.PlaneGeometry(3.8,len+1),dirt,(x+nx)/2,-.12,(z+nz)/2);p.rotation.x=-Math.PI/2;p.rotation.z=-Math.atan2(dx,dz)}
+// stream and stones
+const stream=mesh(new THREE.PlaneGeometry(5,50),water,13,-.17,-8);stream.rotation.x=-Math.PI/2;stream.rotation.z=-.12;
+for(let i=0;i<65;i++){let x=13+(Math.random()-.5)*5.5,z=-32+Math.random()*49;mesh(new THREE.DodecahedronGeometry(.35+Math.random()*.7,0),rock,x,-.08,z,[1,.65,1.2])}
+// natural cover rocks, fallen logs and a few wooden training barricades
+for(let i=0;i<24;i++){let a=Math.random()*Math.PI*2,r=8+Math.random()*23,x=Math.cos(a)*r,z=Math.sin(a)*r;if(Math.abs(x)<4&&z>0)continue;mesh(new THREE.DodecahedronGeometry(.8+Math.random()*1.3,1),rock,x,.25,z,[1.3,.8,1])}
+for(const [x,z,rot] of [[-8,-5,.3],[8,8,-.4],[-14,13,.2],[17,-17,.5]]){const log=mesh(new THREE.CylinderGeometry(.32,.38,5,9),bark,x,.4,z);log.rotation.z=Math.PI/2;log.rotation.y=rot;for(let k=-1;k<=1;k+=2)mesh(new THREE.CylinderGeometry(.06,.06,1.2,6),leaf1,x+k*1.5,.7,z)}
+// small wooden target structures
+for(const [x,z] of [[-9,-14],[10,-20],[-18,4],[18,14],[0,22]]){mesh(new THREE.BoxGeometry(3,.22,.22),bark,x,1.5,z);mesh(new THREE.BoxGeometry(.22,2,.22),bark,x-1.35,.65,z);mesh(new THREE.BoxGeometry(.22,2,.22),bark,x+1.35,.65,z)}
+// glowing floating practice drones (non-human targets)
+const targets=[];const targetMat=[glow,glowBlue];for(let i=0;i<8;i++){const g=new THREE.Group();const core=new THREE.Mesh(new THREE.IcosahedronGeometry(.58,1),targetMat[i%2]);g.add(core);const ring=new THREE.Mesh(new THREE.TorusGeometry(.86,.055,8,32),mat(0xe5ffd0,.3,.25));ring.rotation.x=Math.PI/2;g.add(ring);const fin=new THREE.Mesh(new THREE.BoxGeometry(1.8,.08,.12),targetMat[(i+1)%2]);g.add(fin);const a=i/8*Math.PI*2,r=13+(i%3)*6;g.position.set(Math.cos(a)*r,2.5+(i%3)*.8,Math.sin(a)*r);scene.add(g);targets.push({g,alive:true,base:g.position.clone(),phase:i*1.7,hit:0})}
+const player={x:0,z:15,y:1.7,vy:0,yaw:Math.PI,pitch:0};camera.position.set(player.x,player.y,player.z);
+let projectiles=[],particles=[],lastShot=0;const keys={},joy={x:0,y:0};let lookPointer=null,lastX=0,lastY=0;
+function toast(s){$('notice').textContent=s;$('notice').style.opacity=1;clearTimeout(toast.t);toast.t=setTimeout(()=>$('notice').style.opacity=0,1050)}
+function hud(){ $('score').textContent=score.toLocaleString('fa-IR');$('left').textContent=targets.filter(t=>t.alive).length.toLocaleString('fa-IR');$('time').textContent=String(Math.floor(timeLeft/60)).padStart(2,'0')+':'+String(Math.floor(timeLeft%60)).padStart(2,'0')}
+function finish(win){started=false;if(score>best){best=score;localStorage.setItem('cpgWildBest',best);$('best').textContent=best.toLocaleString('fa-IR')}document.exitPointerLock?.();$('menu').style.display='flex';$('menu').querySelector('h2').textContent=win?'عالی بود! همه هدف‌ها پیدا شدند':'زمان مسابقه تمام شد';$('menu').querySelector('p').textContent='امتیاز تو: '+score+' — برای رکورد بهتر دوباره تلاش کن!';$('start').textContent='بازی دوباره'}
+function shoot(){if(!started)return;const now=performance.now();if(now-lastShot<230)return;lastShot=now;const dir=new THREE.Vector3(0,0,-1).applyQuaternion(camera.quaternion).normalize();const origin=camera.position.clone().add(dir.clone().multiplyScalar(.8));const bolt=mesh(new THREE.SphereGeometry(.13,8,8),glowBlue,origin.x,origin.y,origin.z);bolt.userData={dir,life:1.4};projectiles.push(bolt)}
+function burst(point){for(let i=0;i<8;i++){const p=mesh(new THREE.SphereGeometry(.07,6,6),i%2?glow:glowBlue,point.x,point.y,point.z);p.userData={life:.42,velocity:new THREE.Vector3((Math.random()-.5)*3,Math.random()*2,(Math.random()-.5)*3)};particles.push(p)}}
+function update(dt,t){if(!started)return;timeLeft-=dt;if(timeLeft<=0){timeLeft=0;hud();finish(false);return}
+let f=(keys.KeyW||keys.ArrowUp?1:0)-(keys.KeyS||keys.ArrowDown?1:0)-joy.y,s=(keys.KeyD||keys.ArrowRight?1:0)-(keys.KeyA||keys.ArrowLeft?1:0)+joy.x;let l=Math.hypot(f,s);if(l>1){f/=l;s/=l}const speed=7.2*dt*(keys.Shift?1.35:1);let dx=(-Math.sin(player.yaw)*f+Math.cos(player.yaw)*s)*speed,dz=(-Math.cos(player.yaw)*f-Math.sin(player.yaw)*s)*speed;player.x=THREE.MathUtils.clamp(player.x+dx,-43,43);player.z=THREE.MathUtils.clamp(player.z+dz,-43,43);
+player.vy-=18*dt;player.y+=player.vy*dt;if(player.y<1.7){player.y=1.7;player.vy=0}camera.position.set(player.x,player.y,player.z);camera.rotation.order='YXZ';camera.rotation.y=player.yaw;camera.rotation.x=player.pitch;
+targets.forEach(tar=>{if(!tar.alive)return;tar.g.position.y=tar.base.y+Math.sin(t*1.5+tar.phase)*.38;tar.g.position.x=tar.base.x+Math.sin(t*.45+tar.phase)*.7;tar.g.rotation.y+=dt*.7;tar.g.rotation.z=Math.sin(t+tar.phase)*.12});
+for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.position.addScaledVector(p.userData.dir,dt*28);p.userData.life-=dt;let hit=false;for(const tar of targets){if(tar.alive&&p.position.distanceTo(tar.g.position)<.85){tar.alive=false;scene.remove(tar.g);burst(tar.g.position);score+=100;toast('هدف تمرینی زده شد! +۱۰۰');hit=true;hud();break}}if(hit||p.userData.life<=0){scene.remove(p);projectiles.splice(i,1)}}
+for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.userData.life-=dt;p.position.addScaledVector(p.userData.velocity,dt);if(p.userData.life<=0){scene.remove(p);particles.splice(i,1)}}
+if(targets.every(tar=>!tar.alive))finish(true);hud()}
+function jump(){if(started&&player.y<=1.71)player.vy=7.2}
+$('jump').addEventListener('pointerdown',e=>{e.preventDefault();jump()});$('fire').addEventListener('pointerdown',e=>{e.preventDefault();shoot()});renderer.domElement.addEventListener('pointerdown',e=>{if(!started)return;if(e.pointerType==='mouse'){if(e.button===0)shoot();renderer.domElement.requestPointerLock?.()}else{lookPointer=e.pointerId;lastX=e.clientX;lastY=e.clientY}});
+document.addEventListener('pointerlockchange',()=>{if(document.pointerLockElement===renderer.domElement)lookPointer='locked';else if(lookPointer==='locked')lookPointer=null});
+addEventListener('pointermove',e=>{if(!started)return;if(lookPointer==='locked'){player.yaw-=e.movementX*.0023;player.pitch=THREE.MathUtils.clamp(player.pitch-e.movementY*.0023,-1.15,1.15)}else if(lookPointer===e.pointerId){player.yaw-=(e.clientX-lastX)*.006;player.pitch=THREE.MathUtils.clamp(player.pitch-(e.clientY-lastY)*.004,-1.15,1.15);lastX=e.clientX;lastY=e.clientY}});
+addEventListener('pointerup',e=>{if(lookPointer===e.pointerId)lookPointer=null});
+$('stick').addEventListener('pointerdown',e=>{e.preventDefault();$('stick').setPointerCapture(e.pointerId);moveJoy(e)});$('stick').addEventListener('pointermove',e=>{if(e.buttons||e.pressure)moveJoy(e)});function moveJoy(e){const r=$('stick').getBoundingClientRect(),dx=e.clientX-r.left-r.width/2,dy=e.clientY-r.top-r.height/2,max=34,l=Math.hypot(dx,dy);const x=l>max?dx/l*max:dx,y=l>max?dy/l*max:dy;$('knob').style.transform='translate('+x+'px,'+y+'px)';joy.x=x/max;joy.y=y/max}function stopJoy(){joy.x=joy.y=0;$('knob').style.transform='translate(0,0)'}$('stick').addEventListener('pointerup',stopJoy);$('stick').addEventListener('pointercancel',stopJoy);$('stick').addEventListener('lostpointercapture',stopJoy);
 addEventListener('keydown',e=>{keys[e.code]=true;if(e.code==='Space')jump()});addEventListener('keyup',e=>keys[e.code]=false);
-$('start').onclick=()=>{score=0;timeLeft=180;ended=false;started=true;player.x=0;player.z=9;player.y=1.7;player.yaw=Math.PI;player.pitch=0;orbs.forEach(o=>{o.mesh.visible=true;o.halo.visible=true});pads.forEach(p=>{p.done=false;p.progress=0;p.ring.material=mats.glow});$('menu').style.display='none';updateHud();clock.getDelta();notice('سه سکوی انرژی را فعال کن!');if(innerWidth>850)renderer.domElement.requestPointerLock?.()};
-$('quality').onclick=()=>{quality=quality===1?0:1;renderer.setPixelRatio(Math.min(devicePixelRatio,quality?1.5:1));renderer.shadowMap.enabled=!!quality;$('quality').textContent='کیفیت گرافیک: '+(quality?'متعادل':'سبک')};
+$('start').onclick=()=>{score=0;timeLeft=120;targets.forEach(tar=>{tar.alive=true;scene.add(tar.g);tar.g.position.copy(tar.base)});projectiles.forEach(p=>scene.remove(p));projectiles=[];particles.forEach(p=>scene.remove(p));particles=[];player.x=0;player.z=15;player.y=1.7;player.vy=0;player.yaw=Math.PI;player.pitch=0;camera.position.set(0,1.7,15);started=true;$('menu').style.display='none';hud();clock.getDelta();toast('هدف‌ها را پیدا کن و نشانه بگیر!');if(innerWidth>850)renderer.domElement.requestPointerLock?.()};
+$('quality').onclick=()=>{quality=1-quality;renderer.setPixelRatio(Math.min(devicePixelRatio,quality?1.5:1));renderer.shadowMap.enabled=!!quality;$('quality').textContent='کیفیت گرافیک: '+(quality?'بالا':'سبک')};
 addEventListener('resize',()=>{camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight);renderer.setPixelRatio(Math.min(devicePixelRatio,quality?1.5:1))});
-let elapsed=0;renderer.setAnimationLoop(()=>{let dt=Math.min(clock.getDelta(),.04);elapsed+=dt;update(dt,elapsed);renderer.render(scene,camera)});
+let elapsed=0;renderer.setAnimationLoop(()=>{const dt=Math.min(clock.getDelta(),.04);elapsed+=dt;update(dt,elapsed);renderer.render(scene,camera)});
 </script></body></html>
